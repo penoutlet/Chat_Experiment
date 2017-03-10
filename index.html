@@ -130,7 +130,7 @@ var startListening = function() {
       });
     }
 
-    database.ref().onAuth(function (result) {
+    database.ref().onAuthStateChanged(function (result) {
     if (result) {
         username = result.user;
         loginButton.textContent = "Logged in as " + username;
