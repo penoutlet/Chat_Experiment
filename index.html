@@ -61,6 +61,19 @@
 
 var provider = new firebase.auth.TwitterAuthProvider();
 
+
+
+
+    var usernameInput = document.querySelector('#username');
+    var textInput = document.querySelector('#text');
+    var postButton = document.querySelector('#post');
+
+// ADD THESE 4 LINES
+    var username = null;
+    var loginButton = document.querySelector('#login');
+    postButton.style.display = "none";
+    textInput.style.display = "none";
+
 loginButton.addEventListener("click", function() {
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -85,19 +98,6 @@ loginButton.addEventListener("click", function() {
 
 });
 
-
-
-
-    var usernameInput = document.querySelector('#username');
-    var textInput = document.querySelector('#text');
-    var postButton = document.querySelector('#post');
-
-// ADD THESE 4 LINES
-    var username = null;
-    var loginButton = document.querySelector('#login');
-    postButton.style.display = "none";
-    textInput.style.display = "none";
-//
 
     postButton.addEventListener("click", function() {
       // ADD THIS LINE
