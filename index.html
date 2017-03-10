@@ -83,9 +83,7 @@ var provider = new firebase.auth.TwitterAuthProvider();
 });
 
 
-loginButton.addEventListener("click", function() {
-firebase.auth().signInWithPopup(provider);
-});
+
 
     var usernameInput = document.querySelector('#username');
     var textInput = document.querySelector('#text');
@@ -96,8 +94,10 @@ firebase.auth().signInWithPopup(provider);
     var loginButton = document.querySelector('#login');
     postButton.style.display = "none";
     textInput.style.display = "none";
-
-
+//
+loginButton.addEventListener("click", function() {
+firebase.auth().signInWithPopup(provider);
+});
 
     postButton.addEventListener("click", function() {
       // ADD THIS LINE
