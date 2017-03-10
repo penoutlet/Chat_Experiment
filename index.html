@@ -42,16 +42,16 @@
   <script>
   
 
+
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyCL2jHHGHkdfFigqmtwLkUsWkInuxSMsj4",
-    authDomain: "chat-room-dd9cf.firebaseapp.com",
-    databaseURL: "https://chat-room-dd9cf.firebaseio.com",
-    storageBucket: "chat-room-dd9cf.appspot.com",
-    messagingSenderId: "57403322938"
+    apiKey: "AIzaSyAPliaKd8qZWqg86tEGAznd4gw0morP6VM",
+    authDomain: "glacial-page.firebaseapp.com",
+    databaseURL: "https://glacial-page.firebaseio.com",
+    storageBucket: "glacial-page.appspot.com",
+    messagingSenderId: "221016520175"
   };
   firebase.initializeApp(config);
-
 
   var database = firebase.database();
 
@@ -61,6 +61,7 @@
 
 var provider = new firebase.auth.TwitterAuthProvider();
 
+loginButton.addEventListener("click", function() {
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
   // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
@@ -82,6 +83,8 @@ var provider = new firebase.auth.TwitterAuthProvider();
   // ...
 });
 
+});
+
 
 
 
@@ -95,9 +98,6 @@ var provider = new firebase.auth.TwitterAuthProvider();
     postButton.style.display = "none";
     textInput.style.display = "none";
 //
-loginButton.addEventListener("click", function() {
-firebase.auth().signInWithPopup(provider);
-});
 
     postButton.addEventListener("click", function() {
       // ADD THIS LINE
