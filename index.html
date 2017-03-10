@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Chat</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+
+
+<!-- Inline CSS -->
+
+<style>
+    body {
+      font-family: 'HelveticaNeue-Light';
+    }
+    .msg {
+      margin: 10px 0;
+      padding: 10px;
+      width: 400px;
+      background-color: #efefef;
+    }
+    #username, #text {
+      margin: 5px 0px;
+    }
+    #post {
+      padding: 0.5em 1em;
+      background-color: #50b1ff;
+      border: none;
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <input id="username" type="text" placeholder="Name"><br/>
+  <input id="text" type="text" placeholder="Message"><br/>
+  <button id="post">Post</button><br/>
+  <div id="results"></div>
+  <button id="login">Login with Twitter</button><br/>
+  <input id="text" type="text" placeholder="Message"><br/>
+  
+  <script>
+  
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCL2jHHGHkdfFigqmtwLkUsWkInuxSMsj4",
+    authDomain: "chat-room-dd9cf.firebaseapp.com",
+    databaseURL: "https://chat-room-dd9cf.firebaseio.com",
+    storageBucket: "chat-room-dd9cf.appspot.com",
+    messagingSenderId: "57403322938"
+  };
+  firebase.initializeApp(config);
+
+
+  var database = firebase.database();
+
+
+
+  // Authentication through twitter
+
+var provider = new firebase.auth.TwitterAuthProvider();
+
+
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+  // You can use these server side with your app's credentials to access the Twitter API.
+  var token = result.credential.accessToken;
+  var secret = result.credential.secret;
+  // The signed-in user info.
+  var user = result.user;
+  console.log("user" + user);
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
+
+
+loginButton.addEventListener("click", function() {
+firebase.auth().signInWithPopup(provider);
+});
+
+    var usernameInput = document.querySelector('#username');
+    var textInput = document.querySelector('#text');
+    var postButton = document.querySelector('#post');
+
+// ADD THESE 4 LINES
+    var username = null;
+    var loginButton = document.querySelector('#login');
+    postButton.style.display = "none";
+    textInput.style.display = "none";
+
+
+
+    postButton.addEventListener("click", function() {
+      // ADD THIS LINE
+      var msgUser = username;
+
+      var msgUser = usernameInput.value;
+      var msgText = textInput.value;
+      database.ref().push({username:msgUser, text:msgText});
+     textInput.value = "";
+    });
+
+var startListening = function() {
+      database.ref().on('child_added', function(snapshot) {
+        var msg = snapshot.val();
+      
+        var msgUsernameElement = document.createElement("b");
+        msgUsernameElement.textContent = msg.username;
+        
+        var msgTextElement = document.createElement("p");
+        msgTextElement.textContent = msg.text;
+  
+        var msgElement = document.createElement("div");
+        msgElement.appendChild(msgUsernameElement);
+        msgElement.appendChild(msgTextElement);
+
+        msgElement.className = "msg";
+        
+        document.getElementById("results").appendChild(msgElement);
+        console.log("MsgElement" + msgElement);
+      });
+    }
+
+    database.ref().onAuth(function (result) {
+    if (result) {
+        username = result.user;
+        loginButton.textContent = "Logged in as " + username;
+        loginButton.disabled = true;
+        postButton.style.display = "block";
+        textInput.style.display = "block";
+    // Begin listening for data
+    startListening();
+}
+});
+
+
+  </script>
+
+
+</body>
+</html>
