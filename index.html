@@ -103,8 +103,7 @@ loginButton.addEventListener("click", function() {
       // ADD THIS LINE
       var msgUser = username;
 
-      var msgUser = usernameInput.value;
-      var msgText = textInput.value;
+       var msgText = textInput.value;
       database.ref().push({username:msgUser, text:msgText});
      textInput.value = "";
     });
