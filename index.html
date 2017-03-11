@@ -42,16 +42,16 @@
   <script>
   
 
-
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyAPliaKd8qZWqg86tEGAznd4gw0morP6VM",
-    authDomain: "glacial-page.firebaseapp.com",
-    databaseURL: "https://glacial-page.firebaseio.com",
-    storageBucket: "glacial-page.appspot.com",
-    messagingSenderId: "221016520175"
+    apiKey: "AIzaSyCL2jHHGHkdfFigqmtwLkUsWkInuxSMsj4",
+    authDomain: "chat-room-dd9cf.firebaseapp.com",
+    databaseURL: "https://chat-room-dd9cf.firebaseio.com",
+    storageBucket: "chat-room-dd9cf.appspot.com",
+    messagingSenderId: "57403322938"
   };
   firebase.initializeApp(config);
+
 
   var database = firebase.database();
 
@@ -60,6 +60,35 @@
   // Authentication through twitter
 
 var provider = new firebase.auth.TwitterAuthProvider();
+
+
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+  // You can use these server side with your app's credentials to access the Twitter API.
+  var token = result.credential.accessToken;
+  var secret = result.credential.secret;
+  // The signed-in user info.
+  var user = result.user;
+  console.log("user" + user);
+  if (result) {
+        username = result.user;
+        loginButton.textContent = "Logged in as " + username;
+        loginButton.disabled = true;
+        postButton.style.display = "block";
+        textInput.style.display = "block";
+
+}
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
 
 
 
@@ -74,36 +103,18 @@ var provider = new firebase.auth.TwitterAuthProvider();
     postButton.style.display = "none";
     textInput.style.display = "none";
 
+
 loginButton.addEventListener("click", function() {
-
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-  // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-  // You can use these server side with your app's credentials to access the Twitter API.
-  var token = result.credential.accessToken;
-  var secret = result.credential.secret;
-  // The signed-in user info.
-  var user = result.user;
-  console.log("user" + user);
-  // ...
-}).catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
-});
+firebase.auth().signInWithPopup(provider);
+console.log("provider: " + provider);
 
 });
-
-
     postButton.addEventListener("click", function() {
       // ADD THIS LINE
       var msgUser = username;
 
-       var msgText = textInput.value;
+      var msgUser = usernameInput.value;
+      var msgText = textInput.value;
       database.ref().push({username:msgUser, text:msgText});
      textInput.value = "";
     });
@@ -129,18 +140,10 @@ var startListening = function() {
       });
     }
 
-
-    firebase.auth(function (result) {
-    if (result) {
-        username = result.user;
-        loginButton.textContent = "Logged in as " + username;
-        loginButton.disabled = true;
-        postButton.style.display = "block";
-        textInput.style.display = "block";
     // Begin listening for data
     startListening();
-}
-});
+
+
 
 
   </script>
