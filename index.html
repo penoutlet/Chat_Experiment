@@ -70,6 +70,7 @@ var provider = new firebase.auth.TwitterAuthProvider();
   // The signed-in user info.
   var user = result.user;
   console.log("user" + user);
+  console.log("result:" + result);
   if (result) {
         username = result.user;
         loginButton.textContent = "Logged in as " + username;
